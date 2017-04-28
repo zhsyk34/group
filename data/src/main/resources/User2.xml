@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<!--http://docs.jboss.org/hibernate/orm/5.2/userguide/html_single/Hibernate_User_Guide.html#sql-named-queries-->
+<hibernate-mapping>
+
+    <sql-query name="User.list">
+        <!--一定要有?-->
+        <return alias="user" class="com.cat.entity.User"/>
+        <![CDATA[SELECT * FROM user WHERE name LIKE :name]]>
+    </sql-query>
+
+    <sql-query name="User.save">
+        UPDATE user SET name = :name WHERE id = :id
+    </sql-query>
+
+    <query name="User.list2">
+        <![CDATA[SELECT u FROM User AS u WHERE u.name LIKE :name]]>
+    </query>
+
+</hibernate-mapping>

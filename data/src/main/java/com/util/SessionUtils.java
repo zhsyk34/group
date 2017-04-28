@@ -1,20 +1,30 @@
 package com.util;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import com.cat.entity.User;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.Metadata;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 public abstract class SessionUtils {
 
-    private static final EntityManagerFactory ENTITY_MANAGER_FACTORY;
+    private static final SessionFactory SESSION_FACTORY;
 
     static {
-        //persistence-unit:name
-        ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("app");
+        //hibernate.cfg.xml
+        StandardServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().configure("hibernate.xml").build();
+        MetadataSources metadataSources = new MetadataSources(serviceRegistry);
+        //or mapping in hibernate.xml
+        metadataSources.addResource("User.xml");
+        metadataSources.addAnnotatedClass(User.class);
+        Metadata metadata = metadataSources.getMetadataBuilder().build();
+        SESSION_FACTORY = metadata.getSessionFactoryBuilder().build();
     }
 
-    public static EntityManager entityManager() {
-        return ENTITY_MANAGER_FACTORY.createEntityManager();
+    public static Session session() {
+        return SESSION_FACTORY.openSession();
     }
 
 }
