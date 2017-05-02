@@ -12,6 +12,7 @@
         <module>config</module>
         <module>data</module>
         <module>jq</module>
+        <module>hb</module>
     </modules>
 
     <properties>

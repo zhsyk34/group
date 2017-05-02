@@ -6,16 +6,16 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@MappedSuperclass
 @Getter
 @Setter
-public class GeneralEntity {
+@MappedSuperclass
+public class Common {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "create_time", nullable = false, updatable = false)
-    private LocalDateTime createTime;
-    @Column(name = "update_time")
+    private LocalDateTime createTime = LocalDateTime.now();
+    @Column(name = "update_time", insertable = false)
     private LocalDateTime updateTime;
 }

@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 @ToString
 
 @Entity(name = "dnk_lock")
-public class Lock extends GeneralEntity {
+public class Lock extends Common {
     private String uuid;
 
     @Column(name = "gateway_id")

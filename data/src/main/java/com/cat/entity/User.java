@@ -5,10 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 //@NamedNativeQueries({
 //        @NamedNativeQuery(
@@ -30,11 +27,19 @@ import javax.persistence.Id;
 @ToString
 
 @Entity
+//alter table User add constraint uk_name_age unique (name, age)
+@Table(indexes = {@Index(name = "uk_name_age", columnList = "name, age", unique = true)})
+
+//alter table User  add constraint uk_name_age unique (name, age)
+//@Table(uniqueConstraints = {@UniqueConstraint(name = "uk_name_age", columnNames = {"name", "age"})})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(nullable = false, length = 30)
     private String name;
+
+    private short age;
 
 }

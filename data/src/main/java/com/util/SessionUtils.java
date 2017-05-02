@@ -19,6 +19,9 @@ public abstract class SessionUtils {
         //or mapping in hibernate.xml
         metadataSources.addResource("User.xml");
         metadataSources.addAnnotatedClass(User.class);
+//        metadataSources.addAnnotatedClass(Common.class);
+//        metadataSources.addAnnotatedClass(Gateway.class);
+//        metadataSources.addAnnotatedClass(GatewayVersion.class);
         Metadata metadata = metadataSources.getMetadataBuilder().build();
         SESSION_FACTORY = metadata.getSessionFactoryBuilder().build();
     }
