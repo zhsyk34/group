@@ -35,7 +35,6 @@ public class User extends Common {
     /**
      * 是否启用:暂未支持
      */
-    @Column
     private boolean enabled;
 
     /**

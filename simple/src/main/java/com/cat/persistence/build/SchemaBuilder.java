@@ -31,6 +31,9 @@ public class SchemaBuilder {
     private static final String SPACE = "    ";
     private static final String LINE_SPLIT = ",\n";
     private static final String NO_NULL = "NOT NULL";
+    private static final String NULL = "NULL";
+    private static final String DEFAULT = "DEFAULT";
+    private static final String CURRENT_TIMESTAMP = "CURRENT_TIMESTAMP";
     private static final String AUTO_INCREMENT = "AUTO_INCREMENT";
     private static final String UNSIGNED = "UNSIGNED";
     private static final String PK = "PRIMARY KEY (${id})";
@@ -88,10 +91,20 @@ public class SchemaBuilder {
     private static String columnDefinition(ColumnMapping columnMapping) {
         StringBuilder builder = new StringBuilder();
         builder.append(columnMapping.getColumn());
-        builder.append(SPACE).append(columnType(columnMapping));
+
+        String dataType = columnType(columnMapping);
+        builder.append(SPACE).append(dataType);
         if (!columnMapping.isNullable()) {
             builder.append(SPACE).append(NO_NULL);
         }
+        if (dataType.equalsIgnoreCase(TimeEnum.TIMESTAMP.toString())) {
+            if (columnMapping.isNullable()) {
+                builder.append(SPACE).append(NULL).append(SPACE).append(DEFAULT).append(SPACE).append(NULL);
+            } else {
+                builder.append(SPACE).append(DEFAULT).append(SPACE).append(CURRENT_TIMESTAMP);
+            }
+        }
+
         if (columnMapping.isPrimary()) {
             builder.append(SPACE).append(AUTO_INCREMENT);
         }

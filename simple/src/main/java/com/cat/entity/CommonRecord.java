@@ -5,13 +5,18 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Column;
+import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 
 @MappedSuperclass
-public class CommonRecord extends Common {
+public class CommonRecord {
+    @Id
+    private Long id;
+
     @Column(nullable = false, updatable = false)
     private long gatewayId;
     @Column(nullable = false, updatable = false)
@@ -29,4 +34,7 @@ public class CommonRecord extends Common {
     private String lockName;
 
     private PushTypeEnum pushType;
+
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createTime = LocalDateTime.now();
 }

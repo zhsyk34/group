@@ -44,7 +44,17 @@ public class DoorLockRepositoryTest {
     }
 
     @Test
+    public void save2() throws Exception {
+
+    }
+
+    @Test
     public void find() throws Exception {
+        System.out.println(gatewayVersionRepository.findById(1L));
+    }
+
+    @Test
+    public void list() throws Exception {
         System.out.println(gatewayVersionRepository.findById(1L));
     }
 

@@ -13,6 +13,8 @@
         <module>data</module>
         <module>jq</module>
         <module>hb</module>
+        <module>simple</module>
+        <module>jdk8</module>
     </modules>
 
     <properties>

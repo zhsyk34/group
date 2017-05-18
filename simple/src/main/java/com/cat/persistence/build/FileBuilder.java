@@ -1,6 +1,9 @@
 package com.cat.persistence.build;
 
-import com.cat.entity.Student;
+import com.cat.entity.Gateway;
+import com.cat.entity.TenantLock;
+import com.cat.entity.auth.User;
+import com.cat.entity.auth.UserGateway;
 import com.cat.persistence.mapping.ColumnMapping;
 import com.cat.persistence.mapping.EntityMapping;
 import com.cat.persistence.mapping.EntityMappingManager;
@@ -11,12 +14,12 @@ import com.cat.service.impl.CommonServiceImpl;
 import com.cat.util.FileUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public abstract class FileBuilder {
@@ -55,10 +58,12 @@ public abstract class FileBuilder {
     }
 
     public static void main(String[] args) {
-//        List<Class<?>> classes = FileUtils.scanPackage(Gateway.class.getPackage().getName());
-//        classes.forEach(clazz -> createXml(clazz, false));
+        Set<Class<?>> classes = FileUtils.scanPackage(User.class.getPackage().getName());
+        classes.stream().filter(
+                clazz -> clazz != TenantLock.class && clazz != UserGateway.class && EntityMappingManager.from(clazz) != null
+        ).forEach(clazz -> create(clazz, true));
 //        create(Token.class, true);
-        createXml(Student.class, true);
+        createXml(Gateway.class, true);
     }
 
     private static void create(Class<?> clazz, boolean cover) {
@@ -160,7 +165,10 @@ public abstract class FileBuilder {
 
     private static String createXmlContent(Class<?> clazz) {
         EntityMapping mapping = EntityMappingManager.from(clazz);
-        Assert.notNull(mapping, "entity can't be null");
+        if (mapping == null) {
+            System.out.println(clazz.getSimpleName() + " :entity can't be null");
+            return null;
+        }
 
         String entity = mapping.getTableMapping().getClazz().getSimpleName();
         String table = mapping.getTableMapping().getTable();

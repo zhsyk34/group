@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS gateway_version (
   info         VARCHAR(10)     NOT NULL,
   download_url VARCHAR(100)    NOT NULL,
   create_time  TIMESTAMP       NOT NULL,
-  update_time  TIMESTAMP,
+  update_time  TIMESTAMP       NULL        DEFAULT NULL,
   PRIMARY KEY (id)
 )
   ENGINE = InnoDB
@@ -41,8 +41,8 @@ CREATE TABLE IF NOT EXISTS gateway (
   major              VARCHAR(30)     NOT NULL
   COMMENT '网关主版本号',
   gateway_version_id BIGINT UNSIGNED NOT NULL,
-  create_time        TIMESTAMP       NOT NULL,
-  update_time        TIMESTAMP,
+  create_time        TIMESTAMP       NOT NULL    DEFAULT CURRENT_TIMESTAMP,
+  update_time        TIMESTAMP       NULL        DEFAULT NULL,
   PRIMARY KEY (id)
 )
   ENGINE = InnoDB
